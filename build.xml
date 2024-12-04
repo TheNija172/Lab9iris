@@ -1,0 +1,30 @@
+<project name="SimpleCalculator" default="deploy" basedir=".">
+    <!-- Устанавливаем пути -->
+    <property name="src.dir" value="src"/>
+    <property name="build.dir" value="build"/>
+    <property name="dist.dir" value="dist"/>
+
+    <!-- Очистка старых сборок -->
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+    </target>
+
+    <!-- Компиляция исходных кодов -->
+    <target name="compile" depends="clean">
+        <mkdir dir="${build.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false"/>
+    </target>
+
+    <!-- Упаковка в JAR -->
+    <target name="package" depends="compile">
+        <mkdir dir="${dist.dir}"/>
+        <jar destfile="${dist.dir}/calculator.jar" basedir="${build.dir}"/>
+    </target>
+
+    <!-- Деплой на сервер (можно заменить на копирование в папку для простоты) -->
+    <target name="deploy" depends="package">
+        <echo message="Deploying the calculator app"/>
+        <copy file="${dist.dir}/calculator.jar" todir="/path/to/deploy"/>
+    </target>
+</project>
